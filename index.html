@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Belén — Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -328,13 +330,35 @@
       transition: background 0.2s;
     }
     .stack-item:hover { background: var(--surface); }
-    .stack-item .stack-icon { font-size: 1.5rem; }
+    .stack-item .stack-icon {
+      font-size: 2rem;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stack-item:hover .stack-icon {
+      transform: translateY(-5px) scale(1.2);
+      filter: drop-shadow(0 4px 8px rgba(0,245,160,0.3));
+    }
     .stack-item .stack-name {
       font-family: 'Fira Code', monospace;
       font-size: 0.75rem;
       color: var(--muted);
       letter-spacing: 0.05em;
     }
+    .devicon-html5-plain { color: #e34f26; }
+    .devicon-css3-plain { color: #1572b6; }
+    .devicon-javascript-plain { color: #f7df1e; }
+    .devicon-react-original { color: #61dafb; }
+    .devicon-nodejs-plain { color: #539e43; }
+    .devicon-typescript-plain { color: #3178c6; }
+    .devicon-python-plain { color: #3776ab; }
+    .devicon-php-plain { color: #777bb4; }
+    .devicon-java-plain { color: #f89820; }
+    .devicon-mysql-plain { color: #4479a1; }
+    .devicon-git-plain { color: #f05032; }
+    .devicon-npm-original-wordmark { color: #cb3837; }
 
     /* About visual */
     .about-visual { position: relative; }
@@ -709,52 +733,61 @@
       <p class="section-label">01 — sobre mí</p>
       <h2 class="section-title">Código con<br>propósito.</h2>
       <div class="about-text">
-        <p>Hola, soy <strong>Belén</strong>, desarrolladora junior con base en <strong>HTML, CSS, JavaScript, Node.js, React, Python, MySQL y Java</strong>. Me enfoco en construir proyectos reales que resuelvan problemas reales.</p>
+        <p>Hola, soy <strong>Belén</strong>, desarrolladora junior con base en <strong>HTML, CSS, JavaScript, Node.js, React, Python, PHP, TypeScript, MySQL y Java</strong>. Me enfoco en construir proyectos reales que resuelvan problemas reales.</p>
         <p>Me interesa especialmente el desarrollo <strong>full-stack</strong> y los proyectos de alto impacto. Tengo habilidades de <strong>resolución de problemas</strong>, trabajo en equipo y familiaridad con <strong>metodologías ágiles (Scrum)</strong>. Actualmente construyendo mi portfolio y sumando proyectos que demuestren mis capacidades.</p>
         <p>Manejo <strong>inglés intermedio</strong> con capacidad de leer documentación técnica y comunicarme en entornos de trabajo.</p>
       </div>
       <div class="stack-grid">
-        <div class="stack-item">
-          <span class="stack-icon">🌐</span>
-          <span class="stack-name">HTML/CSS/JS</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">⚛️</span>
-          <span class="stack-name">React</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">🟢</span>
-          <span class="stack-name">Node.js</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">🐍</span>
-          <span class="stack-name">Python</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">🗄️</span>
-          <span class="stack-name">Git/GitHub</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">📦</span>
-          <span class="stack-name">npm/APIs</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">🛢️</span>
-          <span class="stack-name">MySQL</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">☕</span>
-          <span class="stack-name">Java</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">🔄</span>
-          <span class="stack-name">Scrum</span>
-        </div>
-        <div class="stack-item">
-          <span class="stack-icon">🇬🇧</span>
-          <span class="stack-name">Inglés B1</span>
-        </div>
-      </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-html5-plain"></i></span>
+    <span class="stack-name">HTML/CSS/JS</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-react-original"></i></span>
+    <span class="stack-name">React</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-nodejs-plain"></i></span>
+    <span class="stack-name">Node.js</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-typescript-plain"></i></span>
+    <span class="stack-name">TypeScript</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-python-plain"></i></span>
+    <span class="stack-name">Python</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-php-plain"></i></span>
+    <span class="stack-name">PHP</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-java-plain"></i></span>
+    <span class="stack-name">Java</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-mysql-plain"></i></span>
+    <span class="stack-name">MySQL</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-git-plain"></i></span>
+    <span class="stack-name">Git/GitHub</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-npm-original-wordmark"></i></span>
+    <span class="stack-name">npm/APIs</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="fa-solid fa-arrows-spin" style="color:var(--accent)"></i></span>
+    <span class="stack-name">Scrum</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="fa-solid fa-comments" style="color:var(--accent)"></i></span>
+    <span class="stack-name">Inglés B1</span>
+  </div>
+</div>
+</div>
     </div>
 
     <!-- TERMINAL -->
@@ -786,45 +819,66 @@
 
       <div class="project-card">
         <p class="project-num">// 001</p>
-        <h3 class="project-title">Proyecto 1</h3>
-        <p class="project-desc">Descripción breve de tu proyecto. Qué problema resuelve, qué aprendiste construyéndolo y cuál fue el mayor desafío.</p>
+        <h3 class="project-title">App del Clima</h3>
+        <p class="project-desc">Aplicación web que consulta una API pública para mostrar el clima actual según la ciudad ingresada. Trabajé con fetch, manejo de JSON y diseño responsive.</p>
         <div class="project-tags">
           <span class="tag">HTML</span>
           <span class="tag">CSS</span>
-          <span class="tag">JavaScript</span>
+          <span class="tag">API REST</span>
         </div>
         <div class="project-links">
-          <a href="#" class="project-link">↗ demo en vivo</a>
-          <a href="#" class="project-link">⌥ github</a>
+          <a href="https://github.com/endbel/mi-proyecto-clima" target="_blank" class="project-link">⌥ github</a>
         </div>
       </div>
 
       <div class="project-card">
         <p class="project-num">// 002</p>
-        <h3 class="project-title">Proyecto 2</h3>
-        <p class="project-desc">Descripción breve de tu proyecto. Qué problema resuelve, qué aprendiste construyéndolo y cuál fue el mayor desafío.</p>
+        <h3 class="project-title">Conversor de Monedas</h3>
+        <p class="project-desc">Aplicación de consola en Java que convierte entre distintas monedas. Proyecto individual que consolidó el uso de programación orientada a objetos, estructuras de control y manejo de entrada/salida.</p>
         <div class="project-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">API REST</span>
+          <span class="tag">Java</span>
+          <span class="tag">POO</span>
+          <span class="tag">CLI</span>
         </div>
         <div class="project-links">
-          <a href="#" class="project-link">↗ demo en vivo</a>
-          <a href="#" class="project-link">⌥ github</a>
+          <a href="https://github.com/endbel/ConversorDeMonedasJava" target="_blank" class="project-link">⌥ github</a>
         </div>
       </div>
 
-      <div class="project-card empty">
-        <div class="empty-text">próximo proyecto<br>en construcción</div>
+      <div class="project-card">
+        <p class="project-num">// 003</p>
+        <h3 class="project-title">Voz Ciudadana</h3>
+        <p class="project-desc">Plataforma full stack desarrollada en equipo que permite a ciudadanos reportar y visualizar problemas urbanos. Participé en frontend y backend con React, TypeScript y Node.js bajo metodología ágil.</p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Vite</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/endbel/vozCiudadana" target="_blank" class="project-link">⌥ github</a>
+        </div>
       </div>
 
-      <div class="project-card empty">
-        <div class="empty-text">próximo proyecto<br>en construcción</div>
+      <div class="project-card">
+        <p class="project-num">// 004</p>
+        <h3 class="project-title">ToDos App</h3>
+        <p class="project-desc">App de gestión de tareas desarrollada en equipo para la UTN. Incluye registro de usuarios, prioridades, categorías, filtros y diseño mobile-first. Participé en frontend y backend.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">PHP</span>
+          <span class="tag">MySQL</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/DDarioBenitez/ToDos_app" target="_blank" class="project-link">⌥ github</a>
+        </div>
       </div>
 
     </div>
   </section>
-
+  
   <!-- SKILLS -->
   <section id="skills">
     <div class="skills-inner">
@@ -854,6 +908,15 @@
         </div>
         <div class="skill-bar-item">
           <div class="skill-bar-header">
+            <span class="skill-bar-name">TypeScript</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="35"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
             <span class="skill-bar-name">React</span>
             <span class="skill-bar-level">básico</span>
           </div>
@@ -872,25 +935,16 @@
         </div>
         <div class="skill-bar-item">
           <div class="skill-bar-header">
-            <span class="skill-bar-name">Python</span>
+            <span class="skill-bar-name">PHP</span>
             <span class="skill-bar-level">básico</span>
           </div>
           <div class="skill-bar-track">
-            <div class="skill-bar-fill" data-width="40"></div>
+            <div class="skill-bar-fill" data-width="35"></div>
           </div>
         </div>
         <div class="skill-bar-item">
           <div class="skill-bar-header">
-            <span class="skill-bar-name">Git / GitHub</span>
-            <span class="skill-bar-level">intermedio</span>
-          </div>
-          <div class="skill-bar-track">
-            <div class="skill-bar-fill" data-width="60"></div>
-          </div>
-        </div>
-        <div class="skill-bar-item">
-          <div class="skill-bar-header">
-            <span class="skill-bar-name">MySQL</span>
+            <span class="skill-bar-name">Python</span>
             <span class="skill-bar-level">básico</span>
           </div>
           <div class="skill-bar-track">
@@ -904,6 +958,24 @@
           </div>
           <div class="skill-bar-track">
             <div class="skill-bar-fill" data-width="35"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">MySQL</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="40"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Git / GitHub</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="60"></div>
           </div>
         </div>
         <div class="skill-bar-item">
