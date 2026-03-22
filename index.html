@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Endbel — Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <title>Belén — Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Cabinet Grotesk', sans-serif;
       overflow-x: hidden;
       cursor: none;
     }
@@ -50,7 +50,6 @@
       transform: translate(-50%, -50%);
       transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
     }
-    a:hover ~ .cursor, button:hover ~ .cursor { transform: translate(-50%, -50%) scale(2); }
 
     /* Noise overlay */
     body::before {
@@ -63,15 +62,15 @@
       opacity: 0.4;
     }
 
-    /* Grid bg */
+    /* Gradient bg */
     body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(0,245,160,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,245,160,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,245,160,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,180,216,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,245,160,0.03) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -91,7 +90,7 @@
     }
 
     .logo {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.85rem;
       color: var(--accent);
       letter-spacing: 0.1em;
@@ -101,7 +100,7 @@
 
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.75rem;
       color: var(--muted);
       text-decoration: none;
@@ -131,7 +130,7 @@
     .hero-inner { max-width: 900px; }
 
     .hero-tag {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.8rem;
       color: var(--accent);
       letter-spacing: 0.15em;
@@ -186,7 +185,7 @@
       padding: 0.9rem 2rem;
       background: var(--accent);
       color: var(--bg);
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.1em;
@@ -205,7 +204,7 @@
       padding: 0.9rem 2rem;
       background: transparent;
       color: var(--text);
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-decoration: none;
@@ -222,7 +221,7 @@
       bottom: 3rem;
       right: 4rem;
       writing-mode: vertical-rl;
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.7rem;
       color: var(--muted);
       letter-spacing: 0.2em;
@@ -275,7 +274,7 @@
     }
 
     .section-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.75rem;
       color: var(--accent);
       letter-spacing: 0.2em;
@@ -331,51 +330,72 @@
     .stack-item:hover { background: var(--surface); }
     .stack-item .stack-icon { font-size: 1.5rem; }
     .stack-item .stack-name {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.75rem;
       color: var(--muted);
       letter-spacing: 0.05em;
     }
 
-    /* Avatar placeholder */
-    .about-visual {
-      position: relative;
-    }
+    /* About visual */
+    .about-visual { position: relative; }
 
-    .avatar-frame {
+    /* Terminal */
+    .terminal {
       width: 100%;
-      aspect-ratio: 3/4;
-      background: var(--surface);
+      background: #0a0f1a;
       border: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
       clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+      overflow: hidden;
     }
 
-    .avatar-frame::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,245,160,0.08), rgba(0,180,216,0.08));
-    }
-
-    .avatar-placeholder {
-      width: 100%;
-      height: 100%;
+    .terminal-bar {
+      background: #111827;
+      padding: 0.7rem 1rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+      gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .avatar-placeholder .avatar-icon {
-      font-size: 4rem;
-      opacity: 0.3;
+    .t-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .t-title {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-left: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      line-height: 2;
+      min-height: 320px;
+      color: var(--text);
+    }
+
+    .t-line { display: block; }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); }
+    .t-val { color: var(--accent2); }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     .accent-corner {
@@ -437,7 +457,7 @@
     .project-card:hover::before { opacity: 1; }
 
     .project-num {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.7rem;
       color: var(--accent);
       letter-spacing: 0.15em;
@@ -468,7 +488,7 @@
     }
 
     .tag {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.65rem;
       color: var(--accent);
       border: 1px solid rgba(0,245,160,0.2);
@@ -477,13 +497,10 @@
       background: rgba(0,245,160,0.04);
     }
 
-    .project-links {
-      display: flex;
-      gap: 1.5rem;
-    }
+    .project-links { display: flex; gap: 1.5rem; }
 
     .project-link {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.72rem;
       color: var(--muted);
       text-decoration: none;
@@ -495,7 +512,6 @@
     }
     .project-link:hover { color: var(--accent); }
 
-    /* Empty project slot */
     .project-card.empty {
       display: flex;
       align-items: center;
@@ -505,7 +521,7 @@
       background: transparent;
     }
     .project-card.empty .empty-text {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.75rem;
       color: var(--muted);
       text-align: center;
@@ -519,10 +535,7 @@
       border-top: 1px solid var(--border);
     }
 
-    .skills-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .skills-inner { max-width: 1200px; margin: 0 auto; }
 
     .skills-row {
       margin-top: 4rem;
@@ -540,14 +553,14 @@
     }
 
     .skill-bar-name {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.78rem;
       color: var(--text);
       letter-spacing: 0.08em;
     }
 
     .skill-bar-level {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.7rem;
       color: var(--accent);
       letter-spacing: 0.1em;
@@ -611,7 +624,7 @@
     }
 
     footer p {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Fira Code', monospace;
       font-size: 0.72rem;
       color: var(--muted);
       letter-spacing: 0.08em;
@@ -653,7 +666,6 @@
 </head>
 <body>
 
-  <!-- Custom cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
@@ -672,15 +684,15 @@
   <section id="hero">
     <div class="glow-blob"></div>
     <div class="hero-inner">
-      <p class="hero-tag">Desarrollador Junior — disponible</p>
+      <p class="hero-tag">JUNIOR DEVELOPER — AVAILABLE</p>
       <h1 class="hero-name">
         Hola,<br>
-        soy <span style="color:var(--accent)">Endbel</span><br>
+        soy <span style="color:var(--accent)">Belén</span><br>
         <span class="line2">Developer.</span>
       </h1>
       <p class="hero-desc">
         Construyo experiencias web funcionales y elegantes.
-        Apasionado por el código limpio, los proyectos de impacto
+        Apasionada por el código limpio, los proyectos de impacto
         y el aprendizaje continuo.
       </p>
       <div class="hero-cta">
@@ -697,8 +709,9 @@
       <p class="section-label">01 — sobre mí</p>
       <h2 class="section-title">Código con<br>propósito.</h2>
       <div class="about-text">
-        <p>Soy un desarrollador junior con base en <strong>HTML, CSS, JavaScript, Node.js, React y Python</strong>. Me enfoco en construir proyectos reales que resuelvan problemas reales.</p>
-        <p>Me interesa especialmente el desarrollo <strong>full-stack</strong> y los proyectos de alto impacto. Actualmente construyendo mi portfolio y sumando proyectos que demuestren mis capacidades.</p>
+        <p>Hola, soy <strong>Belén</strong>, desarrolladora junior con base en <strong>HTML, CSS, JavaScript, Node.js, React, Python, MySQL y Java</strong>. Me enfoco en construir proyectos reales que resuelvan problemas reales.</p>
+        <p>Me interesa especialmente el desarrollo <strong>full-stack</strong> y los proyectos de alto impacto. Tengo habilidades de <strong>resolución de problemas</strong>, trabajo en equipo y familiaridad con <strong>metodologías ágiles (Scrum)</strong>. Actualmente construyendo mi portfolio y sumando proyectos que demuestren mis capacidades.</p>
+        <p>Manejo <strong>inglés intermedio</strong> con capacidad de leer documentación técnica y comunicarme en entornos de trabajo.</p>
       </div>
       <div class="stack-grid">
         <div class="stack-item">
@@ -725,14 +738,35 @@
           <span class="stack-icon">📦</span>
           <span class="stack-name">npm/APIs</span>
         </div>
+        <div class="stack-item">
+          <span class="stack-icon">🛢️</span>
+          <span class="stack-name">MySQL</span>
+        </div>
+        <div class="stack-item">
+          <span class="stack-icon">☕</span>
+          <span class="stack-name">Java</span>
+        </div>
+        <div class="stack-item">
+          <span class="stack-icon">🔄</span>
+          <span class="stack-name">Scrum</span>
+        </div>
+        <div class="stack-item">
+          <span class="stack-icon">🇬🇧</span>
+          <span class="stack-name">Inglés B1</span>
+        </div>
       </div>
     </div>
+
+    <!-- TERMINAL -->
     <div class="about-visual reveal">
-      <div class="avatar-frame">
-        <div class="avatar-placeholder">
-          <span class="avatar-icon">👤</span>
-          <span>tu foto aquí</span>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="t-dot" style="background:#ff5f57"></span>
+          <span class="t-dot" style="background:#febc2e"></span>
+          <span class="t-dot" style="background:#28c840"></span>
+          <span class="t-title">belen@portfolio ~</span>
         </div>
+        <div class="terminal-body" id="terminalBody"></div>
       </div>
       <div class="accent-corner"></div>
       <div class="accent-corner2"></div>
@@ -750,7 +784,6 @@
 
     <div class="project-grid reveal">
 
-      <!-- Proyecto 1 — reemplazar con tu proyecto real -->
       <div class="project-card">
         <p class="project-num">// 001</p>
         <h3 class="project-title">Proyecto 1</h3>
@@ -766,7 +799,6 @@
         </div>
       </div>
 
-      <!-- Proyecto 2 — reemplazar con tu proyecto real -->
       <div class="project-card">
         <p class="project-num">// 002</p>
         <h3 class="project-title">Proyecto 2</h3>
@@ -782,7 +814,6 @@
         </div>
       </div>
 
-      <!-- Slots para proyectos futuros -->
       <div class="project-card empty">
         <div class="empty-text">próximo proyecto<br>en construcción</div>
       </div>
@@ -857,6 +888,33 @@
             <div class="skill-bar-fill" data-width="60"></div>
           </div>
         </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">MySQL</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="40"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Java</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="35"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Inglés</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="55"></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -866,22 +924,113 @@
     <div class="reveal">
       <p class="section-label" style="justify-content:center">04 — contacto</p>
       <h2 class="contact-big">¿Trabajamos<br><span class="accent">juntos?</span></h2>
-      <p class="contact-sub">Abierto a oportunidades, proyectos freelance y colaboraciones.</p>
+      <p class="contact-sub">Abierta a oportunidades, proyectos freelance y colaboraciones.</p>
       <div class="contact-links">
         <a href="mailto:tu@email.com" class="btn-primary">✉ enviar email</a>
         <a href="https://github.com/endbel" target="_blank" class="btn-outline">⌥ GitHub</a>
-        <a href="https://linkedin.com/in/tuusuario" target="_blank" class="btn-outline">in LinkedIn</a>
+        <a href="https://www.linkedin.com/in/miperfilbelenrodriguez/" target="_blank" class="btn-outline">in LinkedIn</a>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2025 <span class="accent">endbel</span> — diseñado y desarrollado a mano</p>
-    <p>hecho con <span class="accent">♥</span> y mucho café</p>
+    <p>© 2024 <span class="accent">Belén</span> · <span class="accent">endbel</span> — diseñado y desarrollado</p>
+    <p>hecho con <span class="accent">♥</span> y mucho mate</p>
   </footer>
 
   <script>
+    // Terminal animation
+    const termLines = [
+      { type: 'cmd', prompt: '$ ', text: 'whoami' },
+      { type: 'out', text: 'Belén — Junior Developer' },
+      { type: 'cmd', prompt: '$ ', text: 'cat skills.txt' },
+      { type: 'out', text: 'HTML · CSS · JavaScript' },
+      { type: 'out', text: 'React · Node.js · Python' },
+      { type: 'out', text: 'Java · MySQL · Git' },
+      { type: 'cmd', prompt: '$ ', text: 'echo $STATUS' },
+      { type: 'val', text: 'AVAILABLE FOR HIRE ✓' },
+      { type: 'cmd', prompt: '$ ', text: 'echo $ENGLISH' },
+      { type: 'val', text: 'Intermediate B1 ✓' },
+      { type: 'cmd', prompt: '$ ', text: '_' },
+    ];
+
+    const termBody = document.getElementById('terminalBody');
+    let lineIdx = 0, charIdx = 0, isTyping = false;
+
+    function addCursor() {
+      const c = document.createElement('span');
+      c.className = 't-cursor';
+      c.id = 'tcursor';
+      termBody.appendChild(c);
+    }
+
+    function removeCursor() {
+      const c = document.getElementById('tcursor');
+      if (c) c.remove();
+    }
+
+    function typeLine() {
+      if (lineIdx >= termLines.length) { addCursor(); return; }
+      const line = termLines[lineIdx];
+
+      if (line.type === 'cmd' && line.text === '_') {
+        const span = document.createElement('span');
+        span.className = 't-line';
+        span.innerHTML = `<span class="t-prompt">$ </span>`;
+        termBody.appendChild(span);
+        addCursor();
+        return;
+      }
+
+      if (line.type === 'out' || line.type === 'val') {
+        const span = document.createElement('span');
+        span.className = 't-line';
+        span.innerHTML = `<span class="${line.type === 'val' ? 't-val' : 't-out'}">${line.text}</span>`;
+        termBody.appendChild(span);
+        lineIdx++;
+        setTimeout(typeLine, 120);
+        return;
+      }
+
+      if (!isTyping) {
+        isTyping = true;
+        charIdx = 0;
+        const span = document.createElement('span');
+        span.className = 't-line';
+        span.id = 'currentLine';
+        span.innerHTML = `<span class="t-prompt">${line.prompt}</span><span class="t-cmd"></span>`;
+        termBody.appendChild(span);
+      }
+
+      const cmdSpan = document.getElementById('currentLine').querySelector('.t-cmd');
+      removeCursor();
+      cmdSpan.textContent = line.text.slice(0, charIdx + 1);
+      addCursor();
+      charIdx++;
+
+      if (charIdx < line.text.length) {
+        setTimeout(typeLine, 60);
+      } else {
+        isTyping = false;
+        lineIdx++;
+        const cur = document.getElementById('currentLine');
+        if (cur) cur.removeAttribute('id');
+        removeCursor();
+        setTimeout(typeLine, 300);
+      }
+    }
+
+    const termObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(typeLine, 600);
+          termObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    if (termBody) termObserver.observe(termBody);
+
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -921,7 +1070,6 @@
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          // Trigger skill bars
           e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
             bar.style.width = bar.dataset.width + '%';
           });
