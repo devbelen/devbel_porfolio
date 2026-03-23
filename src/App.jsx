@@ -7,9 +7,10 @@ import { useTerminalAnimation } from './hooks/useTerminalAnimation';
 function App() {
   const { cursorRef, ringRef, handleHoverEnter, handleHoverLeave } = useCursor();
   const { isOpen: sidebarOpen, openSidebar, closeSidebar } = useSidebar();
-  const { ref: aboutRef } = useRevealOnScroll(0.15);
-  const { ref: projectsRef } = useRevealOnScroll(0.15);
-  const { ref: skillsRef } = useRevealOnScroll(0.15);
+  const { ref: aboutRef, isVisible: aboutVisible } = useRevealOnScroll(0.15);
+  const { ref: projectsRef, isVisible: projectsVisible } = useRevealOnScroll(0.15);
+  const { ref: skillsRef, isVisible: skillsVisible } = useRevealOnScroll(0.15);
+  const { ref: contactRef, isVisible: contactVisible } = useRevealOnScroll(0.15);
   const { termBodyRef, lines } = useTerminalAnimation();
 
   useEffect(() => {
@@ -40,7 +41,29 @@ function App() {
           <li><a href="#skills" data-num="03">skills</a></li>
           <li><a href="#contact" data-num="04">contacto</a></li>
         </ul>
+        <button className={`hamburger ${sidebarOpen ? 'active' : ''}`} id="hamburger" aria-label="menú" onClick={openSidebar}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </nav>
+
+      {/* SIDEBAR */}
+      <div className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`} id="sidebarOverlay" onClick={closeSidebar}></div>
+      <aside className={`sidebar ${sidebarOpen ? 'active' : ''}`} id="sidebar">
+        <button className="sidebar-close" id="sidebarClose" aria-label="cerrar menú" onClick={closeSidebar}>✕</button>
+        <a href="#hero" className="sidebar-logo" onClick={closeSidebar}>endbel<span>.dev</span></a>
+        <ul className="sidebar-links">
+          <li><a href="#about" data-num="01" onClick={closeSidebar}>sobre mí</a></li>
+          <li><a href="#projects" data-num="02" onClick={closeSidebar}>proyectos</a></li>
+          <li><a href="#skills" data-num="03" onClick={closeSidebar}>skills</a></li>
+          <li><a href="#contact" data-num="04" onClick={closeSidebar}>contacto</a></li>
+        </ul>
+        <div className="sidebar-footer">
+          <a href="https://github.com/endbel" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/miperfilbelenrodriguez/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </aside>
 
       {/* HERO */}
       <section id="hero">
@@ -66,7 +89,7 @@ function App() {
 
       {/* ABOUT */}
       <section id="about" ref={aboutRef}>
-        <div className="reveal">
+        <div className={`reveal ${aboutVisible ? 'visible' : ''}`}>
           <p className="section-label">01 — sobre mí</p>
           <h2 className="section-title">Código con<br />propósito.</h2>
           <div className="about-text">
@@ -82,118 +105,82 @@ function App() {
           </div>
           <div className="stack-grid">
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=HTML+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-html5-plain"></i></span>
-                <span className="stack-name">HTML</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-html5-plain"></i></span>
+              <span className="stack-name">HTML</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=CSS+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-css3-plain"></i></span>
-                <span className="stack-name">CSS</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-css3-plain"></i></span>
+              <span className="stack-name">CSS</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=JavaScript+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-javascript-plain"></i></span>
-                <span className="stack-name">JavaScript</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-javascript-plain"></i></span>
+              <span className="stack-name">JavaScript</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=TypeScript+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-typescript-plain"></i></span>
-                <span className="stack-name">TypeScript</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-typescript-plain"></i></span>
+              <span className="stack-name">TypeScript</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=React+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-react-original"></i></span>
-                <span className="stack-name">React</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-react-original"></i></span>
+              <span className="stack-name">React</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Node.js+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-nodejs-plain"></i></span>
-                <span className="stack-name">Node.js</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-nodejs-plain"></i></span>
+              <span className="stack-name">Node.js</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Python+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-python-plain"></i></span>
-                <span className="stack-name">Python</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-python-plain"></i></span>
+              <span className="stack-name">Python</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=PHP+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-php-plain"></i></span>
-                <span className="stack-name">PHP</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-php-plain"></i></span>
+              <span className="stack-name">PHP</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Java+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-java-plain"></i></span>
-                <span className="stack-name">Java</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-java-plain"></i></span>
+              <span className="stack-name">Java</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=MySQL+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-mysql-plain"></i></span>
-                <span className="stack-name">MySQL</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-mysql-plain"></i></span>
+              <span className="stack-name">MySQL</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Docker+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-docker-plain"></i></span>
-                <span className="stack-name">Docker</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-docker-plain"></i></span>
+              <span className="stack-name">Docker</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Git+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-git-plain"></i></span>
-                <span className="stack-name">Git</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-git-plain"></i></span>
+              <span className="stack-name">Git</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=GitHub+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-github-original"></i></span>
-                <span className="stack-name">GitHub</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-github-original"></i></span>
+              <span className="stack-name">GitHub</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=npm+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-npm-original-wordmark"></i></span>
-                <span className="stack-name">npm</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-npm-original-wordmark"></i></span>
+              <span className="stack-name">npm</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=APIs+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="fa-solid fa-plug" style={{ color: 'var(--accent)' }}></i></span>
-                <span className="stack-name">APIs</span>
-              </a>
+              <span className="stack-icon"><i className="fa-solid fa-plug" style={{ color: 'var(--accent)' }}></i></span>
+              <span className="stack-name">APIs</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Bash+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="devicon-bash-plain"></i></span>
-                <span className="stack-name">Bash</span>
-              </a>
+              <span className="stack-icon"><i className="devicon-bash-plain"></i></span>
+              <span className="stack-name">Bash</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=Scrum+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="fa-solid fa-arrows-spin" style={{ color: 'var(--accent)' }}></i></span>
-                <span className="stack-name">Scrum</span>
-              </a>
+              <span className="stack-icon"><i className="fa-solid fa-arrows-spin" style={{ color: 'var(--accent)' }}></i></span>
+              <span className="stack-name">Scrum</span>
             </div>
             <div className="stack-item">
-              <a href="https://www.google.com/search?q=nivel+ingles+B1+que+es" target="_blank" rel="noreferrer" className="stack-link">
-                <span className="stack-icon"><i className="fa-solid fa-comments" style={{ color: 'var(--accent)' }}></i></span>
-                <span className="stack-name">Inglés B1</span>
-              </a>
+              <span className="stack-icon"><i className="fa-solid fa-comments" style={{ color: 'var(--accent)' }}></i></span>
+              <span className="stack-name">Inglés B1</span>
             </div>
           </div>
         </div>
 
         {/* TERMINAL */}
-        <div className="about-visual reveal">
+        <div className={`about-visual reveal ${aboutVisible ? 'visible' : ''}`}>
           <div className="terminal">
             <div className="terminal-bar">
               <span className="t-dot" style={{ background: '#ff5f57' }}></span>
@@ -201,7 +188,21 @@ function App() {
               <span className="t-dot" style={{ background: '#28c840' }}></span>
               <span className="t-title">belen@portfolio ~</span>
             </div>
-            <div className="terminal-body" ref={termBodyRef}></div>
+            <div className="terminal-body" ref={termBodyRef}>
+              {lines.map((line) => (
+                <span className="t-line" key={line.id}>
+                  {line.type === 'cmd' ? (
+                    <>
+                      <span className="t-prompt">{line.prompt}</span>
+                      <span className="t-cmd">{line.text}</span>
+                      {(line.isTyping || line.text === '') && <span className="t-cursor"></span>}
+                    </>
+                  ) : (
+                    <span className={line.type === 'val' ? 't-val' : 't-out'}>{line.text}</span>
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="accent-corner"></div>
           <div className="accent-corner2"></div>
@@ -210,14 +211,14 @@ function App() {
 
       {/* PROJECTS */}
       <section id="projects" ref={projectsRef}>
-        <div className="projects-header reveal">
+        <div className={`projects-header reveal ${projectsVisible ? 'visible' : ''}`}>
           <div>
             <p className="section-label">02 — proyectos</p>
             <h2 className="section-title">Lo que<br />he construido.</h2>
           </div>
         </div>
 
-        <div className="project-grid reveal">
+        <div className={`project-grid reveal ${projectsVisible ? 'visible' : ''}`}>
           <div className="project-card">
             <p className="project-num">// 001</p>
             <h3 className="project-title">App del Clima</h3>
@@ -314,12 +315,12 @@ function App() {
       {/* SKILLS */}
       <section id="skills" ref={skillsRef}>
         <div className="skills-inner">
-          <div className="reveal">
+          <div className={`reveal ${skillsVisible ? 'visible' : ''}`}>
             <p className="section-label">03 — habilidades</p>
             <h2 className="section-title">Mi stack.</h2>
           </div>
 
-          <div className="skills-row reveal">
+          <div className={`skills-row reveal ${skillsVisible ? 'visible' : ''}`}>
             <div className="skill-bar-item">
               <div className="skill-bar-header">
                 <span className="skill-bar-name">HTML</span>
@@ -494,8 +495,8 @@ function App() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact">
-        <div className="reveal">
+      <section id="contact" ref={contactRef}>
+        <div className={`reveal ${contactVisible ? 'visible' : ''}`}>
           <p className="section-label">04 — contacto</p>
           <h2 className="contact-big">¿Trabajamos<br /><span className="accent">juntos?</span></h2>
           <p className="contact-sub">Abierta a oportunidades, proyectos freelance y colaboraciones.</p>

@@ -326,24 +326,6 @@ h2.section-title {
   letter-spacing: 0.05em;
 }
 
-.stack-link {
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-  height: 100%;
-  color: inherit;
-}
-
-.stack-link:visited,
-.stack-link:hover,
-.stack-link:focus {
-  text-decoration: none;
-  color: inherit;
-  outline: none;
-}
-
 /* Colores de iconos */
 .devicon-html5-plain { color: #e34f26; }
 .devicon-css3-plain { color: #1572b6; }
@@ -473,7 +455,7 @@ h2.section-title {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5px;
   background: var(--border);
   border: 1px solid var(--border);

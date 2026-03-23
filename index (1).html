@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Belén — Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c10;
+      --surface: #0e1420;
+      --border: #1a2235;
+      --accent: #00f5a0;
+      --accent2: #00b4d8;
+      --text: #e8edf5;
+      --muted: #5a6880;
+      --card: #0d1626;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,245,160,0.4);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* Gradient bg */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,245,160,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,180,216,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,245,160,0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,245,160,0.06);
+      background: rgba(8,12,16,0.7);
+    }
+
+    .logo {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-decoration: none;
+    }
+    .logo span { color: var(--muted); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::before {
+      content: attr(data-num);
+      color: var(--accent);
+      margin-right: 0.4em;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 4rem;
+      padding-top: 5rem;
+    }
+
+    .hero-inner { max-width: 900px; }
+
+    .hero-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--accent);
+    }
+
+    h1.hero-name {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+
+    h1.hero-name .line2 {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,237,245,0.3);
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 3rem;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+
+    .btn-primary {
+      padding: 0.9rem 2rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      border: none;
+      cursor: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,245,160,0.25);
+    }
+
+    .btn-outline {
+      padding: 0.9rem 2rem;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      cursor: none;
+      transition: border-color 0.2s, color 0.2s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: fixed;
+      bottom: 3rem;
+      right: 4rem;
+      writing-mode: vertical-rl;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: fadeUp 1s 1.2s forwards;
+      opacity: 0;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollLine 2s 1.5s infinite;
+    }
+
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* Glow blob */
+    .glow-blob {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,245,160,0.06) 0%, transparent 70%);
+      top: 10%;
+      right: -100px;
+      pointer-events: none;
+      animation: blobFloat 8s ease-in-out infinite;
+    }
+
+    @keyframes blobFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    /* ABOUT */
+    #about {
+      padding: 8rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      max-width: 60px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    h2.section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    .about-text p + p { margin-top: 1rem; }
+    .about-text strong { color: var(--text); font-weight: 600; }
+
+    /* Stack grid */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .stack-item {
+      background: var(--bg);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+    .stack-item:hover { background: var(--surface); }
+    .stack-item .stack-icon {
+      font-size: 2rem;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stack-item:hover .stack-icon {
+      transform: translateY(-5px) scale(1.2);
+      filter: drop-shadow(0 4px 8px rgba(0,245,160,0.3));
+    }
+    .stack-item .stack-name {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .devicon-html5-plain { color: #e34f26; }
+    .devicon-css3-plain { color: #1572b6; }
+    .devicon-javascript-plain { color: #f7df1e; }
+    .devicon-react-original { color: #61dafb; }
+    .devicon-nodejs-plain { color: #539e43; }
+    .devicon-typescript-plain { color: #3178c6; }
+    .devicon-python-plain { color: #3776ab; }
+    .devicon-php-plain { color: #777bb4; }
+    .devicon-java-plain { color: #f89820; }
+    .devicon-mysql-plain { color: #4479a1; }
+    .devicon-git-plain { color: #f05032; }
+    .devicon-npm-original-wordmark { color: #cb3837; }
+    .devicon-docker-plain { color: #2496ed; }
+    .devicon-github-original { color: #e8edf5; }
+    .devicon-bash-plain { color: #4eaa25; }
+
+    /* About visual */
+    .about-visual { position: relative; }
+
+    /* Terminal */
+    .terminal {
+      width: 100%;
+      background: #0a0f1a;
+      border: 1px solid var(--border);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      background: #111827;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .t-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .t-title {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-left: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      line-height: 2;
+      min-height: 320px;
+      color: var(--text);
+    }
+
+    .t-line { display: block; }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); }
+    .t-val { color: var(--accent2); }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .accent-corner {
+      position: absolute;
+      top: -1px; right: -1px;
+      width: 60px; height: 60px;
+      border-top: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+    .accent-corner2 {
+      position: absolute;
+      bottom: -1px; left: -1px;
+      width: 60px; height: 60px;
+      border-bottom: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+    }
+
+    /* PROJECTS */
+    #projects {
+      padding: 8rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .project-card {
+      background: var(--card);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      cursor: none;
+    }
+    .project-card:hover { background: var(--surface); }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-num {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+      opacity: 0.6;
+    }
+
+    .project-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: var(--accent);
+      border: 1px solid rgba(0,245,160,0.2);
+      padding: 0.3rem 0.7rem;
+      letter-spacing: 0.08em;
+      background: rgba(0,245,160,0.04);
+    }
+
+    .project-links { display: flex; gap: 1.5rem; }
+
+    .project-link {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent); }
+
+    .project-card.empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      border: 1px dashed rgba(0,245,160,0.1);
+      background: transparent;
+    }
+    .project-card.empty .empty-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.4;
+      letter-spacing: 0.1em;
+    }
+
+    /* SKILLS */
+   #skills {
+      padding: 8rem 4rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .skills-inner { max-width: 1200px; margin: 0 auto; }
+
+    .skills-row {
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .skill-bar-item { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .skill-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .skill-bar-name {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      letter-spacing: 0.08em;
+    }
+
+    .skill-bar-level {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .skill-bar-track {
+      height: 2px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* CONTACT */
+    #contact {
+      padding: 8rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-big {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-big .accent { color: var(--accent); }
+
+    .contact-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer p {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    footer .accent { color: var(--accent); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    /* MOBILE — hasta 480px */
+    @media (max-width: 480px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.2rem; padding-top: 4.5rem; }
+      h1.hero-name { font-size: clamp(2.8rem, 12vw, 4rem); }
+      .hero-desc { font-size: 0.95rem; }
+      #about { grid-template-columns: 1fr; padding: 4rem 1.2rem; gap: 2.5rem; }
+      .about-visual { display: none; }
+      .stack-grid { grid-template-columns: repeat(2, 1fr); }
+      #projects { padding: 4rem 1.2rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .project-card { padding: 1.8rem; }
+      #skills { padding: 4rem 1.2rem; }
+      #contact { padding: 4rem 1.2rem; }
+      .contact-big { font-size: clamp(2rem, 10vw, 3rem); }
+      .contact-links { flex-direction: column; align-items: center; }
+      footer { padding: 1.2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      .scroll-hint { display: none; }
+    }
+
+    /* TABLET — 481px a 768px */
+    @media (min-width: 481px) and (max-width: 768px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 2rem; padding-top: 5rem; }
+      h1.hero-name { font-size: clamp(3rem, 10vw, 5rem); }
+      #about { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      .about-visual { display: none; }
+      .stack-grid { grid-template-columns: repeat(3, 1fr); }
+      #projects { padding: 5rem 2rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .project-card { padding: 2rem; }
+      #skills { padding: 5rem 2rem; }
+      #contact { padding: 5rem 2rem; }
+      .contact-links { flex-direction: column; align-items: center; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      .scroll-hint { display: none; }
+    }
+
+    /* TABLET GRANDE / NOTEBOOK PEQUEÑA — 769px a 1024px */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      nav { padding: 1.5rem 2.5rem; }
+      #hero { padding: 0 2.5rem; padding-top: 5rem; }
+      #about { padding: 6rem 2.5rem; gap: 3rem; }
+      .stack-grid { grid-template-columns: repeat(3, 1fr); }
+      #projects { padding: 6rem 2.5rem; }
+      .project-grid { grid-template-columns: repeat(2, 1fr); }
+      #skills { padding: 6rem 2.5rem; }
+      #contact { padding: 6rem 2.5rem; }
+      footer { padding: 1.5rem 2.5rem; }
+    }
+
+    /* DESKTOP / NOTEBOOK — 1025px a 1440px */
+    @media (min-width: 1025px) and (max-width: 1440px) {
+      nav { padding: 1.5rem 3rem; }
+      #hero { padding: 0 3rem; padding-top: 5rem; }
+      #about { padding: 7rem 3rem; }
+      #projects { padding: 7rem 3rem; }
+      #skills { padding: 7rem 3rem; }
+      #contact { padding: 7rem 3rem; }
+      footer { padding: 2rem 3rem; }
+    }
+
+    /* PANTALLAS GRANDES — más de 1440px */
+    @media (min-width: 1441px) {
+      nav { padding: 1.5rem 6rem; }
+      #hero { padding: 0 6rem; padding-top: 5rem; }
+      #about { padding: 8rem 6rem; }
+      #projects { padding: 8rem 6rem; }
+      #skills { padding: 8rem 6rem; }
+      #contact { padding: 8rem 6rem; }
+      footer { padding: 2rem 6rem; }
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: none;
+      padding: 0.3rem;
+      z-index: 101;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* SIDEBAR */
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .sidebar-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0; right: 0;
+      width: 280px;
+      height: 100vh;
+      background: #0a0f1a;
+      border-left: 1px solid var(--border);
+      z-index: 201;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sidebar.active { transform: translateX(0); }
+
+    .sidebar-close {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.2rem;
+      cursor: none;
+      transition: color 0.2s;
+    }
+    .sidebar-close:hover { color: var(--accent); }
+
+    .sidebar-logo {
+      font-family: 'Fira Code', monospace;
+      font-size: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+    }
+    .sidebar-logo span { color: var(--muted); }
+
+    .sidebar-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
+    .sidebar-links a {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      padding: 0.8rem 1rem;
+      display: block;
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .sidebar-links a::before {
+      content: attr(data-num) ' ';
+      color: var(--accent);
+    }
+    .sidebar-links a:hover {
+      color: var(--text);
+      border-left-color: var(--accent);
+      padding-left: 1.5rem;
+    }
+
+    .sidebar-footer {
+      display: flex;
+      gap: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-footer a {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .sidebar-footer a:hover { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <<nav>
+    <a href="#hero" class="logo">endbel<span>.dev</span></a>
+    <ul class="nav-links">
+      <li><a href="#about" data-num="01">sobre mí</a></li>
+      <li><a href="#projects" data-num="02">proyectos</a></li>
+      <li><a href="#skills" data-num="03">skills</a></li>
+      <li><a href="#contact" data-num="04">contacto</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" id="sidebarClose">✕</button>
+    <a href="#hero" class="sidebar-logo">endbel<span>.dev</span></a>
+    <ul class="sidebar-links">
+      <li><a href="#about" data-num="01">sobre mí</a></li>
+      <li><a href="#projects" data-num="02">proyectos</a></li>
+      <li><a href="#skills" data-num="03">skills</a></li>
+      <li><a href="#contact" data-num="04">contacto</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="https://github.com/endbel" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/miperfilbelenrodriguez/" target="_blank">LinkedIn</a>
+    </div>
+  </aside>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="glow-blob"></div>
+    <div class="hero-inner">
+      <p class="hero-tag">JUNIOR DEVELOPER — AVAILABLE</p>
+      <h1 class="hero-name">
+        Hola,<br>
+        soy <span style="color:var(--accent)">Belén</span><br>
+        <span class="line2">Developer.</span>
+      </h1>
+      <p class="hero-desc">
+        Construyo experiencias web funcionales y elegantes.
+        Apasionada por el código limpio, los proyectos de impacto
+        y el aprendizaje continuo.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">Ver proyectos</a>
+        <a href="#contact" class="btn-outline">Contactar</a>
+      </div>
+    </div>
+    <div class="scroll-hint">scroll</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <p class="section-label">01 — sobre mí</p>
+      <h2 class="section-title">Código con<br>propósito.</h2>
+      <div class="about-text">
+        <p>Hola, soy <strong>Belén</strong>, desarrolladora junior con base en <strong>HTML, CSS, JavaScript, Node.js, React, Python, PHP, TypeScript, MySQL y Java</strong>. Me enfoco en construir proyectos reales que resuelvan problemas reales.</p>
+        <p>Me interesa especialmente el desarrollo <strong>full-stack</strong> y los proyectos de alto impacto. Tengo habilidades de <strong>resolución de problemas</strong>, trabajo en equipo y familiaridad con <strong>metodologías ágiles (Scrum)</strong>. Actualmente construyendo mi portfolio y sumando proyectos que demuestren mis capacidades.</p>
+        <p>Manejo <strong>inglés intermedio</strong> con capacidad de leer documentación técnica y comunicarme en entornos de trabajo.</p>
+      </div>
+      <div class="stack-grid">
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-html5-plain"></i></span>
+    <span class="stack-name">HTML</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-css3-plain"></i></span>
+    <span class="stack-name">CSS</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-javascript-plain"></i></span>
+    <span class="stack-name">JavaScript</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-typescript-plain"></i></span>
+    <span class="stack-name">TypeScript</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-react-original"></i></span>
+    <span class="stack-name">React</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-nodejs-plain"></i></span>
+    <span class="stack-name">Node.js</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-python-plain"></i></span>
+    <span class="stack-name">Python</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-php-plain"></i></span>
+    <span class="stack-name">PHP</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-java-plain"></i></span>
+    <span class="stack-name">Java</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-mysql-plain"></i></span>
+    <span class="stack-name">MySQL</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-docker-plain"></i></span>
+    <span class="stack-name">Docker</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-git-plain"></i></span>
+    <span class="stack-name">Git</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-github-original"></i></span>
+    <span class="stack-name">GitHub</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-npm-original-wordmark"></i></span>
+    <span class="stack-name">npm</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="fa-solid fa-plug" style="color:var(--accent)"></i></span>
+    <span class="stack-name">APIs</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="devicon-bash-plain"></i></span>
+    <span class="stack-name">Bash</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="fa-solid fa-arrows-spin" style="color:var(--accent)"></i></span>
+    <span class="stack-name">Scrum</span>
+  </div>
+  <div class="stack-item">
+    <span class="stack-icon"><i class="fa-solid fa-comments" style="color:var(--accent)"></i></span>
+    <span class="stack-name">Inglés B1</span>
+  </div>
+</div>
+</div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="about-visual reveal">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="t-dot" style="background:#ff5f57"></span>
+          <span class="t-dot" style="background:#febc2e"></span>
+          <span class="t-dot" style="background:#28c840"></span>
+          <span class="t-title">belen@portfolio ~</span>
+        </div>
+        <div class="terminal-body" id="terminalBody"></div>
+      </div>
+      <div class="accent-corner"></div>
+      <div class="accent-corner2"></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="projects-header reveal">
+      <div>
+        <p class="section-label">02 — proyectos</p>
+        <h2 class="section-title">Lo que<br>he construido.</h2>
+      </div>
+    </div>
+
+    <div class="project-grid reveal">
+
+      <div class="project-card">
+        <p class="project-num">// 001</p>
+        <h3 class="project-title">App del Clima</h3>
+        <p class="project-desc">Aplicación web que consulta una API pública para mostrar el clima actual según la ciudad ingresada. Trabajé con fetch, manejo de JSON y diseño responsive.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">API REST</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/endbel/mi-proyecto-clima" target="_blank" class="project-link">⌥ github</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-num">// 002</p>
+        <h3 class="project-title">Conversor de Monedas</h3>
+        <p class="project-desc">Aplicación de consola en Java que convierte entre distintas monedas. Proyecto individual que consolidó el uso de programación orientada a objetos, estructuras de control y manejo de entrada/salida.</p>
+        <div class="project-tags">
+          <span class="tag">Java</span>
+          <span class="tag">POO</span>
+          <span class="tag">CLI</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/endbel/ConversorDeMonedasJava" target="_blank" class="project-link">⌥ github</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-num">// 003</p>
+        <h3 class="project-title">Voz Ciudadana</h3>
+        <p class="project-desc">Plataforma full stack desarrollada en equipo que permite a ciudadanos reportar y visualizar problemas urbanos. Participé en frontend y backend con React, TypeScript y Node.js bajo metodología ágil.</p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Vite</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/endbel/vozCiudadana" target="_blank" class="project-link">⌥ github</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-num">// 004</p>
+        <h3 class="project-title">ToDos App</h3>
+        <p class="project-desc">App de gestión de tareas desarrollada en equipo para la UTN. Incluye registro de usuarios, prioridades, categorías, filtros y diseño mobile-first. Participé en frontend y backend.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">PHP</span>
+          <span class="tag">MySQL</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/DDarioBenitez/ToDos_app" target="_blank" class="project-link">⌥ github</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-num">// 005</p>
+        <h3 class="project-title">Demo Clínica</h3>
+        <p class="project-desc">Sistema de gestión clínica desarrollado en equipo. Incluye autenticación, dashboard, gestión de pacientes y turnos. Participé en el frontend y base de datos con Next.js, Prisma y TypeScript.</p>
+        <div class="project-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">Prisma</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/reedq1/demo-clinica" target="_blank" class="project-link">⌥ github</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-num">// 006</p>
+        <h3 class="project-title">CICI App</h3>
+        <p class="project-desc">Plataforma de gestión para academia de inglés desarrollada en equipo. Administra alumnos, clases y profesores. Participé en frontend y backend con contenedorización mediante Docker.</p>
+        <div class="project-tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">Prisma</span>
+          <span class="tag">Docker</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/endbel/cici-app" target="_blank" class="project-link">⌥ github</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="skills-inner">
+      <div class="reveal">
+        <p class="section-label">03 — habilidades</p>
+        <h2 class="section-title">Mi stack.</h2>
+      </div>
+
+      <div class="skills-row reveal">
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">HTML</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="75"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">CSS</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="70"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">JavaScript</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="65"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">TypeScript</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="35"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">React</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="45"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Node.js</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="45"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">PHP</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="35"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Python</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="40"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Java</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="35"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">MySQL</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="40"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Git</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="60"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">GitHub</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="60"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">npm</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="50"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">APIs</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="50"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Docker</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="30"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Bash</span>
+            <span class="skill-bar-level">básico</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="30"></div>
+          </div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-bar-name">Inglés</span>
+            <span class="skill-bar-level">intermedio</span>
+          </div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-width="55"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal">
+      <p class="section-label">04 — contacto</p>
+      <h2 class="contact-big">¿Trabajamos<br><span class="accent">juntos?</span></h2>
+      <p class="contact-sub">Abierta a oportunidades, proyectos freelance y colaboraciones.</p>
+      <div class="contact-links">
+        <a href="mailto:tu@email.com" class="btn-primary">✉ enviar email</a>
+        <a href="https://github.com/endbel" target="_blank" class="btn-outline">⌥ GitHub</a>
+        <a href="https://www.linkedin.com/in/miperfilbelenrodriguez/" target="_blank" class="btn-outline">in LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2024 <span class="accent">Belén</span> · <span class="accent">endbel</span> — diseñado y desarrollado</p>
+    <p>hecho con <span class="accent">♥</span> y mucho mate</p>
+  </footer>
+
+  <script>
+    // Terminal animation
+    const termLines = [
+      { type: 'cmd', prompt: '$ ', text: 'whoami' },
+      { type: 'out', text: 'Belén — Junior Developer' },
+      { type: 'cmd', prompt: '$ ', text: 'cat skills.txt' },
+      { type: 'out', text: 'HTML · CSS · JavaScript' },
+      { type: 'out', text: 'React · Node.js · Python' },
+      { type: 'out', text: 'Java · MySQL · Git' },
+      { type: 'cmd', prompt: '$ ', text: 'echo $STATUS' },
+      { type: 'val', text: 'AVAILABLE FOR HIRE ✓' },
+      { type: 'cmd', prompt: '$ ', text: 'echo $ENGLISH' },
+      { type: 'val', text: 'Intermediate B1 ✓' },
+      { type: 'cmd', prompt: '$ ', text: '_' },
+    ];
+
+    const termBody = document.getElementById('terminalBody');
+    let lineIdx = 0, charIdx = 0, isTyping = false;
+
+    function addCursor() {
+      const c = document.createElement('span');
+      c.className = 't-cursor';
+      c.id = 'tcursor';
+      termBody.appendChild(c);
+    }
+
+    function removeCursor() {
+      const c = document.getElementById('tcursor');
+      if (c) c.remove();
+    }
+
+    function typeLine() {
+      if (lineIdx >= termLines.length) { addCursor(); return; }
+      const line = termLines[lineIdx];
+
+      if (line.type === 'cmd' && line.text === '_') {
+        const span = document.createElement('span');
+        span.className = 't-line';
+        span.innerHTML = `<span class="t-prompt">$ </span>`;
+        termBody.appendChild(span);
+        addCursor();
+        return;
+      }
+
+      if (line.type === 'out' || line.type === 'val') {
+        const span = document.createElement('span');
+        span.className = 't-line';
+        span.innerHTML = `<span class="${line.type === 'val' ? 't-val' : 't-out'}">${line.text}</span>`;
+        termBody.appendChild(span);
+        lineIdx++;
+        setTimeout(typeLine, 120);
+        return;
+      }
+
+      if (!isTyping) {
+        isTyping = true;
+        charIdx = 0;
+        const span = document.createElement('span');
+        span.className = 't-line';
+        span.id = 'currentLine';
+        span.innerHTML = `<span class="t-prompt">${line.prompt}</span><span class="t-cmd"></span>`;
+        termBody.appendChild(span);
+      }
+
+      const cmdSpan = document.getElementById('currentLine').querySelector('.t-cmd');
+      removeCursor();
+      cmdSpan.textContent = line.text.slice(0, charIdx + 1);
+      addCursor();
+      charIdx++;
+
+      if (charIdx < line.text.length) {
+        setTimeout(typeLine, 60);
+      } else {
+        isTyping = false;
+        lineIdx++;
+        const cur = document.getElementById('currentLine');
+        if (cur) cur.removeAttribute('id');
+        removeCursor();
+        setTimeout(typeLine, 300);
+      }
+    }
+
+    const termObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(typeLine, 600);
+          termObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    if (termBody) termObserver.observe(termBody);
+
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+        ring.style.width = '56px';
+        ring.style.height = '56px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+      });
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      hamburger.classList.add('active');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      hamburger.classList.remove('active');
+    }
+
+    hamburger.addEventListener('click', openSidebar);
+    overlay.addEventListener('click', closeSidebar);
+    document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
+
+    document.querySelectorAll('.sidebar-links a').forEach(link => {
+      link.addEventListener('click', closeSidebar);
+    });
+  </script>
+</body>
+</html>
