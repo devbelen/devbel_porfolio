@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import profilePhoto from "./assets/hero.png";
 import { useCursor } from "./hooks/useCursor";
 import { useHeroTerminalTyping } from "./hooks/useHeroTerminalTyping";
 import { useInteractiveTerminal } from "./hooks/useInteractiveTerminal";
@@ -9,6 +8,9 @@ import { useSidebar } from "./hooks/useSidebar";
 
 function App() {
   useResponsiveViewport();
+
+  const profilePhoto =
+    "https://avatars.githubusercontent.com/devbelen?size=512";
 
   const { cursorRef, ringRef, handleHoverEnter, handleHoverLeave } =
     useCursor();
@@ -172,7 +174,11 @@ function App() {
           </li>
         </ul>
         <div className="sidebar-footer">
-          <a href="https://github.com/endbel" target="_blank" rel="noreferrer">
+          <a
+            href="https://github.com/devbelen"
+            target="_blank"
+            rel="noreferrer"
+          >
             GitHub
           </a>
           <a
@@ -239,7 +245,7 @@ function App() {
               </a>
               <div className="hero-social">
                 <a
-                  href="https://github.com/endbel"
+                  href="https://github.com/devbelen"
                   target="_blank"
                   rel="noreferrer"
                   title="GitHub"
@@ -379,16 +385,37 @@ function App() {
         >
           <div className="project-card">
             <p className="project-num">// 001</p>
-            <h3 className="project-title">App del Clima</h3>
-            <p className="project-desc">
-              Aplicación web que consulta una API pública para mostrar el clima
-              actual según la ciudad ingresada. Trabajé con fetch, manejo de
-              JSON y diseño responsive.
+            <div className="project-headline">
+              <h3 className="project-title">App del Clima</h3>
+              <span className="project-role-badge">proyecto individual</span>
+            </div>
+            <p className="project-pitch">
+              Aplicación web que consulta una API pública y devuelve el clima
+              actual por ciudad con foco en claridad de uso.
             </p>
-            <p className="project-impact">
-              Impacto: reduje el tiempo de consulta percibido con feedback
-              visual de carga y validaciones en tiempo real.
-            </p>
+            <div className="project-breakdown">
+              <article className="breakdown-item">
+                <p className="breakdown-label">problema</p>
+                <p className="breakdown-text">
+                  Las consultas sin feedback daban sensación de lentitud e
+                  incertidumbre al usuario.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-text">
+                  Implementé fetch, manejo de JSON, validaciones y estructura
+                  responsive completa de interfaz.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-text">
+                  Reduje el tiempo de consulta percibido con estados de carga
+                  visibles y respuestas más predecibles.
+                </p>
+              </article>
+            </div>
             <div className="project-tags">
               <span className="tag">HTML</span>
               <span className="tag">CSS</span>
@@ -396,7 +423,7 @@ function App() {
             </div>
             <div className="project-links">
               <a
-                href="https://github.com/endbel/mi-proyecto-clima"
+                href="https://github.com/devbelen/mi-proyecto-clima"
                 target="_blank"
                 rel="noreferrer"
                 className="project-link"
@@ -408,16 +435,37 @@ function App() {
 
           <div className="project-card">
             <p className="project-num">// 002</p>
-            <h3 className="project-title">Conversor de Monedas</h3>
-            <p className="project-desc">
-              Aplicación de consola en Java que convierte entre distintas
-              monedas. Consolidé el uso de programación orientada a objetos,
-              estructuras de control y manejo de entrada/salida.
+            <div className="project-headline">
+              <h3 className="project-title">Conversor de Monedas</h3>
+              <span className="project-role-badge">proyecto individual</span>
+            </div>
+            <p className="project-pitch">
+              Aplicación de consola en Java para convertir monedas con una
+              lógica modular pensada para crecer.
             </p>
-            <p className="project-impact">
-              Impacto: mejoré la mantenibilidad separando lógica de conversión y
-              validación de entrada en componentes reutilizables.
-            </p>
+            <div className="project-breakdown">
+              <article className="breakdown-item">
+                <p className="breakdown-label">problema</p>
+                <p className="breakdown-text">
+                  El cálculo y la validación estaban acoplados, dificultando
+                  mantenimiento y extensión.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-text">
+                  Apliqué POO y separé conversión, entrada/salida y validaciones
+                  en componentes reutilizables.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-text">
+                  Mejoré mantenibilidad y velocidad para incorporar nuevas
+                  monedas y reglas.
+                </p>
+              </article>
+            </div>
             <div className="project-tags">
               <span className="tag">Java</span>
               <span className="tag">POO</span>
@@ -425,7 +473,7 @@ function App() {
             </div>
             <div className="project-links">
               <a
-                href="https://github.com/endbel/ConversorDeMonedasJava"
+                href="https://github.com/devbelen/ConversorDeMonedasJava"
                 target="_blank"
                 rel="noreferrer"
                 className="project-link"
@@ -437,18 +485,37 @@ function App() {
 
           <div className="project-card">
             <p className="project-num">// 003</p>
-            <h3 className="project-title">Voz Ciudadana</h3>
-            <p className="project-desc">
-              Plataforma full stack desarrollada en equipo que permite a
-              ciudadanos reportar y visualizar problemas urbanos. Participé en
-              frontend y backend con React, TypeScript y Node.js bajo
-              metodología ágil.
+            <div className="project-headline">
+              <h3 className="project-title">Voz Ciudadana</h3>
+              <span className="project-role-badge">proyecto en equipo</span>
+            </div>
+            <p className="project-pitch">
+              Plataforma full stack para reportar y visualizar problemas urbanos
+              con entregas iterativas por sprint.
             </p>
-            <p className="project-impact">
-              Impacto: entregas iterativas en sprint con mejoras funcionales
-              semanales y reducción de issues de integración entre frontend y
-              backend.
-            </p>
+            <div className="project-breakdown">
+              <article className="breakdown-item">
+                <p className="breakdown-label">problema</p>
+                <p className="breakdown-text">
+                  Había fricción entre integración frontend/backend y tiempos de
+                  entrega inconsistentes.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-text">
+                  Trabajé en frontend y backend con React, TypeScript y Node.js
+                  dentro de metodología ágil.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-text">
+                  Reducimos issues de integración y sostuvimos mejoras
+                  funcionales semanales.
+                </p>
+              </article>
+            </div>
             <div className="project-tags">
               <span className="tag">React</span>
               <span className="tag">TypeScript</span>
@@ -457,7 +524,7 @@ function App() {
             </div>
             <div className="project-links">
               <a
-                href="https://github.com/endbel/vozCiudadana"
+                href="https://github.com/devbelen/vozCiudadana"
                 target="_blank"
                 rel="noreferrer"
                 className="project-link"
@@ -469,16 +536,37 @@ function App() {
 
           <div className="project-card">
             <p className="project-num">// 004</p>
-            <h3 className="project-title">ToDos App</h3>
-            <p className="project-desc">
-              App de gestión de tareas desarrollada en equipo para la UTN.
-              Incluye registro de usuarios, prioridades, categorías, filtros y
-              diseño mobile-first. Participé en frontend y backend.
+            <div className="project-headline">
+              <h3 className="project-title">ToDos App</h3>
+              <span className="project-role-badge">proyecto en equipo</span>
+            </div>
+            <p className="project-pitch">
+              App de gestión de tareas para UTN con prioridades, categorías,
+              filtros y enfoque mobile-first.
             </p>
-            <p className="project-impact">
-              Impacto: organicé el flujo de tareas por prioridades y categorías,
-              mejorando la velocidad de uso en pruebas funcionales.
-            </p>
+            <div className="project-breakdown">
+              <article className="breakdown-item">
+                <p className="breakdown-label">problema</p>
+                <p className="breakdown-text">
+                  El flujo de tareas no priorizaba acciones y afectaba la
+                  velocidad de uso.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-text">
+                  Participé en frontend y backend implementando filtros,
+                  categorías y estructura de prioridades.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-text">
+                  Mejoró la velocidad de uso en pruebas funcionales y la
+                  claridad operativa diaria.
+                </p>
+              </article>
+            </div>
             <div className="project-tags">
               <span className="tag">HTML</span>
               <span className="tag">CSS</span>
@@ -500,16 +588,37 @@ function App() {
 
           <div className="project-card">
             <p className="project-num">// 005</p>
-            <h3 className="project-title">Demo Clínica</h3>
-            <p className="project-desc">
-              Sistema de gestión clínica desarrollado en equipo. Incluye
-              autenticación, dashboard, gestión de pacientes y turnos. Participé
-              en el frontend y base de datos con Next.js, Prisma y TypeScript.
+            <div className="project-headline">
+              <h3 className="project-title">Demo Clínica</h3>
+              <span className="project-role-badge">proyecto en equipo</span>
+            </div>
+            <p className="project-pitch">
+              Sistema de gestión clínica con autenticación, dashboard y módulo
+              de pacientes/turnos para operaciones diarias.
             </p>
-            <p className="project-impact">
-              Impacto: optimicé flujos administrativos clave y colaboré en un
-              esquema de datos más claro para turnos y pacientes.
-            </p>
+            <div className="project-breakdown">
+              <article className="breakdown-item">
+                <p className="breakdown-label">problema</p>
+                <p className="breakdown-text">
+                  Los flujos administrativos eran lentos y el modelo de datos no
+                  era suficientemente claro.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-text">
+                  Trabajé en frontend y base de datos con Next.js, TypeScript y
+                  Prisma.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-text">
+                  Se optimizaron procesos clave y se ordenó la estructura de
+                  turnos/pacientes.
+                </p>
+              </article>
+            </div>
             <div className="project-tags">
               <span className="tag">Next.js</span>
               <span className="tag">React</span>
@@ -531,16 +640,37 @@ function App() {
 
           <div className="project-card">
             <p className="project-num">// 006</p>
-            <h3 className="project-title">CICI App</h3>
-            <p className="project-desc">
-              Plataforma de gestión para academia de inglés desarrollada en
-              equipo. Administra alumnos, clases y profesores. Participé en
-              frontend y backend con contenedorización mediante Docker.
+            <div className="project-headline">
+              <h3 className="project-title">CICI App</h3>
+              <span className="project-role-badge">proyecto en equipo</span>
+            </div>
+            <p className="project-pitch">
+              Plataforma de gestión para academia de inglés con administración
+              de alumnos, clases y profesores.
             </p>
-            <p className="project-impact">
-              Impacto: estandaricé el entorno de desarrollo con contenedores
-              para acelerar onboarding técnico del equipo.
-            </p>
+            <div className="project-breakdown">
+              <article className="breakdown-item">
+                <p className="breakdown-label">problema</p>
+                <p className="breakdown-text">
+                  El onboarding técnico era lento por diferencias de entorno
+                  entre integrantes.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-text">
+                  Participé en frontend y backend, y trabajé la
+                  contenedorización con Docker.
+                </p>
+              </article>
+              <article className="breakdown-item">
+                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-text">
+                  Se estandarizó el entorno de desarrollo y se aceleró la
+                  incorporación técnica del equipo.
+                </p>
+              </article>
+            </div>
             <div className="project-tags">
               <span className="tag">JavaScript</span>
               <span className="tag">HTML/CSS</span>
@@ -550,7 +680,7 @@ function App() {
             </div>
             <div className="project-links">
               <a
-                href="https://github.com/endbel/cici-app"
+                href="https://github.com/devbelen/cici-app"
                 target="_blank"
                 rel="noreferrer"
                 className="project-link"
@@ -568,10 +698,6 @@ function App() {
           <div className={`reveal ${skillsVisible ? "visible" : ""}`}>
             <p className="section-label">03 habilidades</p>
             <h2 className="section-title">Mi stack.</h2>
-            <p className="skills-context">
-              Tooling del proyecto: Vite + React + ESLint, con flujo de
-              integración/despliegue usando GitHub Actions.
-            </p>
           </div>
 
           <div
@@ -904,7 +1030,7 @@ function App() {
                     ✉ enviar email
                   </a>
                   <a
-                    href="https://github.com/endbel"
+                    href="https://github.com/devbelen"
                     target="_blank"
                     rel="noreferrer"
                     className="btn-outline"
@@ -930,7 +1056,7 @@ function App() {
       <footer>
         <p>
           © 2024 <span className="accent">Belén</span> ·{" "}
-          <span className="accent">endbel</span> — diseñado y desarrollado
+          <span className="accent">devbelen</span> — diseñado y desarrollado
         </p>
         <p>
           hecho con <span className="accent">♥</span> y mucho mate
