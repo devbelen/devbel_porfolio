@@ -1,25 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 
-const HERO_LINES = ["Hola,", "soy Belén", "Developer."];
+const HERO_LINES = {
+  es: ["Hola,", "soy Belén", "Developer."],
+  en: ["Hello,", "I'm Belén", "Developer."],
+};
 
-export function useHeroTerminalTyping() {
+export function useHeroTerminalTyping(language = "es") {
   const [lines, setLines] = useState(["", "", ""]);
   const [activeLine, setActiveLine] = useState(0);
   const [isDone, setIsDone] = useState(false);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
+    const selectedLines = HERO_LINES[language] ?? HERO_LINES.es;
+
+    setLines(["", "", ""]);
+    setActiveLine(0);
+    setIsDone(false);
+
     let lineIdx = 0;
     let charIdx = 0;
 
     const typeNext = () => {
-      if (lineIdx >= HERO_LINES.length) {
+      if (lineIdx >= selectedLines.length) {
         setActiveLine(-1);
         setIsDone(true);
         return;
       }
 
-      const fullLine = HERO_LINES[lineIdx];
+      const fullLine = selectedLines[lineIdx];
       setActiveLine(lineIdx);
       setLines((prev) => {
         const next = [...prev];
@@ -44,7 +53,7 @@ export function useHeroTerminalTyping() {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [language]);
 
   return { lines, activeLine, isDone };
 }

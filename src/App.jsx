@@ -25,11 +25,167 @@ function App() {
   const { ref: skillsRef, isVisible: skillsVisible } = useRevealOnScroll(0.15);
   const { ref: contactRef, isVisible: contactVisible } =
     useRevealOnScroll(0.15);
-  const { history } = useInteractiveTerminal();
-  const { lines: heroLines, activeLine, isDone } = useHeroTerminalTyping();
   const terminalBodyRef = useRef(null);
   const [photoUnlocked, setPhotoUnlocked] = useState(false);
   const [scrollHintOpacity, setScrollHintOpacity] = useState(1);
+  const [language, setLanguage] = useState("es");
+  const [isAboutTerminalActive, setIsAboutTerminalActive] = useState(false);
+
+  const t = {
+    es: {
+      nav: {
+        hero: "junior developer",
+        about: "sobre mí",
+        projects: "proyectos",
+        skills: "skills",
+        contact: "contacto",
+        menu: "menú",
+        closeMenu: "cerrar menú",
+      },
+      hero: {
+        recruiterSummary: "Resumen para reclutadores",
+        line2: "especialista frontend · visión product · ux-driven",
+        line3: "remoto/híbrido · utc-3 · disponibilidad inmediata",
+        projectsCta: "PROYECTOS",
+        contactCta: "Contactar",
+        scroll: "scroll",
+      },
+      about: {
+        sectionLabel: "01 sobre mí",
+        snapshotTitle: "perfil y habilidades clave",
+        pillsAria: "Resumen de stack y habilidades",
+        terminalTitle: "Codigo con proposito.",
+        hidePhoto: "Ocultar foto de perfil",
+        revealPhoto: "Revelar foto de perfil",
+        photoAlt: "Foto de perfil de Belén",
+        lockHint: "click para bloquear",
+        revealHint: "click para revelar",
+      },
+      projects: {
+        sectionLabel: "02 proyectos",
+        titleLine1: "Lo que",
+        titleLine2: "he construido.",
+        solo: "proyecto individual",
+        team: "proyecto en equipo",
+        problem: "problema",
+        role: "mi rol",
+        impact: "impacto",
+      },
+      skills: {
+        sectionLabel: "03 habilidades",
+        title: "Mi stack.",
+        intermediate: "intermedio",
+        basic: "básico",
+        english: "Inglés",
+      },
+      contact: {
+        sectionLabel: "04 contacto",
+        heading1: "¿Trabajamos",
+        heading2: "juntos?",
+        availabilityAria: "Disponibilidad laboral",
+        availabilityTitle: "disponibilidad",
+        item1: "Inicio: inmediato",
+        item2: "Modalidad: remoto",
+        item3:
+          "Franja horaria: UTC-3 con superposición en cualquier horario del mundo",
+        item4: "Rol objetivo: full stack",
+        sendEmail: "✉ enviar email",
+      },
+      footer: {
+        line1: "diseñado y desarrollado",
+        line2: "hecho con",
+        line3: "y mucho mate",
+      },
+    },
+    en: {
+      nav: {
+        hero: "junior developer",
+        about: "about me",
+        projects: "projects",
+        skills: "skills",
+        contact: "contact",
+        menu: "menu",
+        closeMenu: "close menu",
+      },
+      hero: {
+        recruiterSummary: "Recruiter summary",
+        line2: "frontend specialist · product mindset · ux-driven",
+        line3: "remote/hybrid · utc-3 · immediate availability",
+        projectsCta: "PROJECTS",
+        contactCta: "Contact",
+        scroll: "scroll",
+      },
+      about: {
+        sectionLabel: "01 about me",
+        snapshotTitle: "profile and key skills",
+        pillsAria: "Stack and skills summary",
+        terminalTitle: "Code with purpose.",
+        hidePhoto: "Hide profile photo",
+        revealPhoto: "Reveal profile photo",
+        photoAlt: "Belén profile photo",
+        lockHint: "click to lock",
+        revealHint: "click to reveal",
+      },
+      projects: {
+        sectionLabel: "02 projects",
+        titleLine1: "What",
+        titleLine2: "I've built.",
+        solo: "solo project",
+        team: "team project",
+        problem: "problem",
+        role: "my role",
+        impact: "impact",
+      },
+      skills: {
+        sectionLabel: "03 skills",
+        title: "My stack.",
+        intermediate: "intermediate",
+        basic: "basic",
+        english: "English",
+      },
+      contact: {
+        sectionLabel: "04 contact",
+        heading1: "Shall we",
+        heading2: "work together?",
+        availabilityAria: "Work availability",
+        availabilityTitle: "availability",
+        item1: "Start date: immediate",
+        item2: "Mode: remote",
+        item3: "Time zone: UTC-3 with overlap for any global schedule",
+        item4: "Target role: full stack",
+        sendEmail: "✉ send email",
+      },
+      footer: {
+        line1: "designed and developed",
+        line2: "made with",
+        line3: "and lots of mate",
+      },
+    },
+  }[language];
+
+  const shouldStartAboutTerminal = isAboutTerminalActive || aboutVisible;
+  const { history } = useInteractiveTerminal(
+    language,
+    shouldStartAboutTerminal,
+  );
+  const {
+    lines: heroLines,
+    activeLine,
+    isDone,
+  } = useHeroTerminalTyping(language);
+
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === "es" ? "en" : "es"));
+  };
+
+  const handleAboutNavClick = () => {
+    setIsAboutTerminalActive(true);
+  };
+
+  const handleSidebarAboutNavClick = () => {
+    setIsAboutTerminalActive(true);
+    closeSidebar();
+  };
 
   useEffect(() => {
     const links = document.querySelectorAll("a, button");
@@ -92,34 +248,55 @@ function App() {
         <ul className="nav-links">
           <li>
             <a href="#hero" data-num="00">
-              junior developer
+              {t.nav.hero}
             </a>
           </li>
           <li>
-            <a href="#about" data-num="01">
-              sobre mí
+            <a href="#about" data-num="01" onClick={handleAboutNavClick}>
+              {t.nav.about}
             </a>
           </li>
           <li>
             <a href="#projects" data-num="02">
-              proyectos
+              {t.nav.projects}
             </a>
           </li>
           <li>
             <a href="#skills" data-num="03">
-              skills
+              {t.nav.skills}
             </a>
           </li>
           <li>
             <a href="#contact" data-num="04">
-              contacto
+              {t.nav.contact}
             </a>
+          </li>
+          <li className="nav-lang-item">
+            <button
+              type="button"
+              className="lang-switch"
+              onClick={toggleLanguage}
+              aria-label={
+                language === "es" ? "Switch to English" : "Cambiar a español"
+              }
+            >
+              <span
+                className={`lang-chip ${language === "es" ? "active" : ""}`}
+              >
+                ES
+              </span>
+              <span
+                className={`lang-chip ${language === "en" ? "active" : ""}`}
+              >
+                EN
+              </span>
+            </button>
           </li>
         </ul>
         <button
           className={`hamburger ${sidebarOpen ? "active" : ""}`}
           id="hamburger"
-          aria-label="menú"
+          aria-label={t.nav.menu}
           onClick={openSidebar}
         >
           <span></span>
@@ -138,7 +315,7 @@ function App() {
         <button
           className="sidebar-close"
           id="sidebarClose"
-          aria-label="cerrar menú"
+          aria-label={t.nav.closeMenu}
           onClick={closeSidebar}
         >
           ✕
@@ -149,30 +326,47 @@ function App() {
         <ul className="sidebar-links">
           <li>
             <a href="#hero" data-num="00" onClick={closeSidebar}>
-              junior developer
+              {t.nav.hero}
             </a>
           </li>
           <li>
-            <a href="#about" data-num="01" onClick={closeSidebar}>
-              sobre mí
+            <a href="#about" data-num="01" onClick={handleSidebarAboutNavClick}>
+              {t.nav.about}
             </a>
           </li>
           <li>
             <a href="#projects" data-num="02" onClick={closeSidebar}>
-              proyectos
+              {t.nav.projects}
             </a>
           </li>
           <li>
             <a href="#skills" data-num="03" onClick={closeSidebar}>
-              skills
+              {t.nav.skills}
             </a>
           </li>
           <li>
             <a href="#contact" data-num="04" onClick={closeSidebar}>
-              contacto
+              {t.nav.contact}
             </a>
           </li>
         </ul>
+        <div className="sidebar-lang-switch-wrap">
+          <button
+            type="button"
+            className="lang-switch"
+            onClick={toggleLanguage}
+            aria-label={
+              language === "es" ? "Switch to English" : "Cambiar a español"
+            }
+          >
+            <span className={`lang-chip ${language === "es" ? "active" : ""}`}>
+              ES
+            </span>
+            <span className={`lang-chip ${language === "en" ? "active" : ""}`}>
+              EN
+            </span>
+          </button>
+        </div>
         <div className="sidebar-footer">
           <a
             href="https://github.com/devbelen"
@@ -221,27 +415,27 @@ function App() {
           <div className="hero-actions">
             <div
               className="recruiter-scan"
-              aria-label="Resumen para reclutadores"
+              aria-label={t.hero.recruiterSummary}
             >
               <div className="scan-shell">
                 <ul className="scan-list">
                   <li className="scan-stack">
                     react · javascript · typescript · node.js · sql
                   </li>
-                  <li>especialista frontend · visión product · ux-driven</li>
-                  <li>remoto/híbrido · utc-3 · disponibilidad inmediata</li>
+                  <li>{t.hero.line2}</li>
+                  <li>{t.hero.line3}</li>
                 </ul>
                 <a
                   href="#projects"
                   className="scan-availability is-project-link"
                 >
-                  PROYECTOS
+                  {t.hero.projectsCta}
                 </a>
               </div>
             </div>
             <div className="hero-cta">
               <a href="mailto:devbel_@outlook.com" className="btn-outline">
-                Contactar
+                {t.hero.contactCta}
               </a>
               <div className="hero-social">
                 <a
@@ -266,7 +460,7 @@ function App() {
           </div>
         </div>
         <div className="scroll-hint" style={{ opacity: scrollHintOpacity }}>
-          scroll
+          {t.hero.scroll}
         </div>
       </section>
 
@@ -275,24 +469,45 @@ function App() {
         <div
           className={`reveal ${aboutVisible ? "visible" : ""} ${aboutSeen ? "seen" : ""}`}
         >
-          <p className="section-label">01 sobre mí</p>
+          <p className="section-label">{t.about.sectionLabel}</p>
           <div className="about-snapshot">
-            <p className="about-snapshot-title">perfil y habilidades clave</p>
-            <div
-              className="about-pills"
-              aria-label="Resumen de stack y habilidades"
-            >
-              <span>Frontend: HTML, CSS, JavaScript, React, TypeScript</span>
-              <span>Backend y datos: Node.js, PHP, Python, Java, SQL</span>
-              <span>Bases de datos: MySQL, MongoDB, Prisma</span>
+            <p className="about-snapshot-title">{t.about.snapshotTitle}</p>
+            <div className="about-pills" aria-label={t.about.pillsAria}>
+              <span>
+                {language === "es"
+                  ? "Frontend: HTML, CSS, JavaScript, React, TypeScript"
+                  : "Frontend: HTML, CSS, JavaScript, React, TypeScript"}
+              </span>
+              <span>
+                {language === "es"
+                  ? "Backend y datos: Node.js, PHP, Python, Java, SQL"
+                  : "Backend and data: Node.js, PHP, Python, Java, SQL"}
+              </span>
+              <span>
+                {language === "es"
+                  ? "Bases de datos: MySQL, MongoDB, Prisma"
+                  : "Databases: MySQL, MongoDB, Prisma"}
+              </span>
               <span>Tooling: Vite, npm, ESLint, Git, GitHub Actions</span>
               <span>
-                Arquitectura UI: componentes reutilizables y escalables
+                {language === "es"
+                  ? "Arquitectura UI: componentes reutilizables y escalables"
+                  : "UI architecture: reusable and scalable components"}
               </span>
-              <span>API & estado: fetch, async/await, manejo de errores</span>
-              <span>Calidad: clean code, refactor, documentación técnica</span>
               <span>
-                Fortalezas: resolución de problemas y trabajo en equipo
+                {language === "es"
+                  ? "API & estado: fetch, async/await, manejo de errores"
+                  : "API & state: fetch, async/await, error handling"}
+              </span>
+              <span>
+                {language === "es"
+                  ? "Calidad: clean code, refactor, documentación técnica"
+                  : "Quality: clean code, refactor, technical documentation"}
+              </span>
+              <span>
+                {language === "es"
+                  ? "Fortalezas: resolución de problemas y trabajo en equipo"
+                  : "Strengths: problem solving and teamwork"}
               </span>
             </div>
           </div>
@@ -311,7 +526,7 @@ function App() {
                   className="t-dot"
                   style={{ background: "#28c840" }}
                 ></span>
-                <span className="t-title">Codigo con proposito.</span>
+                <span className="t-title">{t.about.terminalTitle}</span>
               </div>
               <div
                 className="terminal-body terminal-body-static"
@@ -344,18 +559,16 @@ function App() {
                 onClick={() => setPhotoUnlocked((prev) => !prev)}
                 aria-pressed={photoUnlocked}
                 aria-label={
-                  photoUnlocked
-                    ? "Ocultar foto de perfil"
-                    : "Revelar foto de perfil"
+                  photoUnlocked ? t.about.hidePhoto : t.about.revealPhoto
                 }
               >
                 <img
                   src={profilePhoto}
-                  alt="Foto de perfil de Belén"
+                  alt={t.about.photoAlt}
                   className="about-profile-photo"
                 />
                 <span className="about-profile-overlay" aria-hidden="true">
-                  {photoUnlocked ? "click para bloquear" : "click para revelar"}
+                  {photoUnlocked ? t.about.lockHint : t.about.revealHint}
                 </span>
               </button>
             </div>
@@ -371,11 +584,11 @@ function App() {
           className={`projects-header reveal ${projectsVisible ? "visible" : ""}`}
         >
           <div>
-            <p className="section-label">02 proyectos</p>
+            <p className="section-label">{t.projects.sectionLabel}</p>
             <h2 className="section-title">
-              Lo que
+              {t.projects.titleLine1}
               <br />
-              he construido.
+              {t.projects.titleLine2}
             </h2>
           </div>
         </div>
@@ -387,32 +600,36 @@ function App() {
             <p className="project-num">// 001</p>
             <div className="project-headline">
               <h3 className="project-title">App del Clima</h3>
-              <span className="project-role-badge">proyecto individual</span>
+              <span className="project-role-badge">{t.projects.solo}</span>
             </div>
             <p className="project-pitch">
-              Aplicación web que consulta una API pública y devuelve el clima
-              actual por ciudad con foco en claridad de uso.
+              {language === "es"
+                ? "Aplicación web que consulta una API pública y devuelve el clima actual por ciudad con foco en claridad de uso."
+                : "Web app that queries a public API and returns current city weather with a focus on clarity of use."}
             </p>
             <div className="project-breakdown">
               <article className="breakdown-item">
-                <p className="breakdown-label">problema</p>
+                <p className="breakdown-label">{t.projects.problem}</p>
                 <p className="breakdown-text">
-                  Las consultas sin feedback daban sensación de lentitud e
-                  incertidumbre al usuario.
+                  {language === "es"
+                    ? "Las consultas sin feedback daban sensación de lentitud e incertidumbre al usuario."
+                    : "Queries without feedback felt slow and created user uncertainty."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-label">{t.projects.role}</p>
                 <p className="breakdown-text">
-                  Implementé fetch, manejo de JSON, validaciones y estructura
-                  responsive completa de interfaz.
+                  {language === "es"
+                    ? "Implementé fetch, manejo de JSON, validaciones y estructura responsive completa de interfaz."
+                    : "I implemented fetch, JSON handling, validations, and a fully responsive interface structure."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-label">{t.projects.impact}</p>
                 <p className="breakdown-text">
-                  Reduje el tiempo de consulta percibido con estados de carga
-                  visibles y respuestas más predecibles.
+                  {language === "es"
+                    ? "Reduje el tiempo de consulta percibido con estados de carga visibles y respuestas más predecibles."
+                    : "I reduced perceived lookup time with visible loading states and more predictable responses."}
                 </p>
               </article>
             </div>
@@ -437,32 +654,36 @@ function App() {
             <p className="project-num">// 002</p>
             <div className="project-headline">
               <h3 className="project-title">Conversor de Monedas</h3>
-              <span className="project-role-badge">proyecto individual</span>
+              <span className="project-role-badge">{t.projects.solo}</span>
             </div>
             <p className="project-pitch">
-              Aplicación de consola en Java para convertir monedas con una
-              lógica modular pensada para crecer.
+              {language === "es"
+                ? "Aplicación de consola en Java para convertir monedas con una lógica modular pensada para crecer."
+                : "Java console app for currency conversion with a modular design built to scale."}
             </p>
             <div className="project-breakdown">
               <article className="breakdown-item">
-                <p className="breakdown-label">problema</p>
+                <p className="breakdown-label">{t.projects.problem}</p>
                 <p className="breakdown-text">
-                  El cálculo y la validación estaban acoplados, dificultando
-                  mantenimiento y extensión.
+                  {language === "es"
+                    ? "El cálculo y la validación estaban acoplados, dificultando mantenimiento y extensión."
+                    : "Calculation and validation were coupled, making maintenance and extension harder."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-label">{t.projects.role}</p>
                 <p className="breakdown-text">
-                  Apliqué POO y separé conversión, entrada/salida y validaciones
-                  en componentes reutilizables.
+                  {language === "es"
+                    ? "Apliqué POO y separé conversión, entrada/salida y validaciones en componentes reutilizables."
+                    : "I applied OOP and separated conversion, input/output, and validations into reusable components."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-label">{t.projects.impact}</p>
                 <p className="breakdown-text">
-                  Mejoré mantenibilidad y velocidad para incorporar nuevas
-                  monedas y reglas.
+                  {language === "es"
+                    ? "Mejoré mantenibilidad y velocidad para incorporar nuevas monedas y reglas."
+                    : "I improved maintainability and speed for adding new currencies and rules."}
                 </p>
               </article>
             </div>
@@ -487,32 +708,36 @@ function App() {
             <p className="project-num">// 003</p>
             <div className="project-headline">
               <h3 className="project-title">Voz Ciudadana</h3>
-              <span className="project-role-badge">proyecto en equipo</span>
+              <span className="project-role-badge">{t.projects.team}</span>
             </div>
             <p className="project-pitch">
-              Plataforma full stack para reportar y visualizar problemas urbanos
-              con entregas iterativas por sprint.
+              {language === "es"
+                ? "Plataforma full stack para reportar y visualizar problemas urbanos con entregas iterativas por sprint."
+                : "Full-stack platform to report and visualize urban issues with iterative sprint deliveries."}
             </p>
             <div className="project-breakdown">
               <article className="breakdown-item">
-                <p className="breakdown-label">problema</p>
+                <p className="breakdown-label">{t.projects.problem}</p>
                 <p className="breakdown-text">
-                  Había fricción entre integración frontend/backend y tiempos de
-                  entrega inconsistentes.
+                  {language === "es"
+                    ? "Había fricción entre integración frontend/backend y tiempos de entrega inconsistentes."
+                    : "There was friction between frontend/backend integration and inconsistent delivery times."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-label">{t.projects.role}</p>
                 <p className="breakdown-text">
-                  Trabajé en frontend y backend con React, TypeScript y Node.js
-                  dentro de metodología ágil.
+                  {language === "es"
+                    ? "Trabajé en frontend y backend con React, TypeScript y Node.js dentro de metodología ágil."
+                    : "I worked on frontend and backend with React, TypeScript, and Node.js within an agile workflow."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-label">{t.projects.impact}</p>
                 <p className="breakdown-text">
-                  Reducimos issues de integración y sostuvimos mejoras
-                  funcionales semanales.
+                  {language === "es"
+                    ? "Reducimos issues de integración y sostuvimos mejoras funcionales semanales."
+                    : "We reduced integration issues and sustained weekly functional improvements."}
                 </p>
               </article>
             </div>
@@ -538,32 +763,36 @@ function App() {
             <p className="project-num">// 004</p>
             <div className="project-headline">
               <h3 className="project-title">ToDos App</h3>
-              <span className="project-role-badge">proyecto en equipo</span>
+              <span className="project-role-badge">{t.projects.team}</span>
             </div>
             <p className="project-pitch">
-              App de gestión de tareas para UTN con prioridades, categorías,
-              filtros y enfoque mobile-first.
+              {language === "es"
+                ? "App de gestión de tareas para UTN con prioridades, categorías, filtros y enfoque mobile-first."
+                : "Task management app for UTN with priorities, categories, filters, and a mobile-first approach."}
             </p>
             <div className="project-breakdown">
               <article className="breakdown-item">
-                <p className="breakdown-label">problema</p>
+                <p className="breakdown-label">{t.projects.problem}</p>
                 <p className="breakdown-text">
-                  El flujo de tareas no priorizaba acciones y afectaba la
-                  velocidad de uso.
+                  {language === "es"
+                    ? "El flujo de tareas no priorizaba acciones y afectaba la velocidad de uso."
+                    : "The task flow did not prioritize actions and reduced usage speed."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-label">{t.projects.role}</p>
                 <p className="breakdown-text">
-                  Participé en frontend y backend implementando filtros,
-                  categorías y estructura de prioridades.
+                  {language === "es"
+                    ? "Participé en frontend y backend implementando filtros, categorías y estructura de prioridades."
+                    : "I contributed to frontend and backend, implementing filters, categories, and priority structure."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-label">{t.projects.impact}</p>
                 <p className="breakdown-text">
-                  Mejoró la velocidad de uso en pruebas funcionales y la
-                  claridad operativa diaria.
+                  {language === "es"
+                    ? "Mejoró la velocidad de uso en pruebas funcionales y la claridad operativa diaria."
+                    : "Usage speed improved in functional tests along with day-to-day operational clarity."}
                 </p>
               </article>
             </div>
@@ -590,32 +819,36 @@ function App() {
             <p className="project-num">// 005</p>
             <div className="project-headline">
               <h3 className="project-title">Demo Clínica</h3>
-              <span className="project-role-badge">proyecto en equipo</span>
+              <span className="project-role-badge">{t.projects.team}</span>
             </div>
             <p className="project-pitch">
-              Sistema de gestión clínica con autenticación, dashboard y módulo
-              de pacientes/turnos para operaciones diarias.
+              {language === "es"
+                ? "Sistema de gestión clínica con autenticación, dashboard y módulo de pacientes/turnos para operaciones diarias."
+                : "Clinical management system with authentication, dashboard, and patient/appointments module for daily operations."}
             </p>
             <div className="project-breakdown">
               <article className="breakdown-item">
-                <p className="breakdown-label">problema</p>
+                <p className="breakdown-label">{t.projects.problem}</p>
                 <p className="breakdown-text">
-                  Los flujos administrativos eran lentos y el modelo de datos no
-                  era suficientemente claro.
+                  {language === "es"
+                    ? "Los flujos administrativos eran lentos y el modelo de datos no era suficientemente claro."
+                    : "Administrative flows were slow and the data model lacked clarity."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-label">{t.projects.role}</p>
                 <p className="breakdown-text">
-                  Trabajé en frontend y base de datos con Next.js, TypeScript y
-                  Prisma.
+                  {language === "es"
+                    ? "Trabajé en frontend y base de datos con Next.js, TypeScript y Prisma."
+                    : "I worked on frontend and database with Next.js, TypeScript, and Prisma."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-label">{t.projects.impact}</p>
                 <p className="breakdown-text">
-                  Se optimizaron procesos clave y se ordenó la estructura de
-                  turnos/pacientes.
+                  {language === "es"
+                    ? "Se optimizaron procesos clave y se ordenó la estructura de turnos/pacientes."
+                    : "Key processes were optimized and the appointments/patients structure was reorganized."}
                 </p>
               </article>
             </div>
@@ -642,32 +875,36 @@ function App() {
             <p className="project-num">// 006</p>
             <div className="project-headline">
               <h3 className="project-title">CICI App</h3>
-              <span className="project-role-badge">proyecto en equipo</span>
+              <span className="project-role-badge">{t.projects.team}</span>
             </div>
             <p className="project-pitch">
-              Plataforma de gestión para academia de inglés con administración
-              de alumnos, clases y profesores.
+              {language === "es"
+                ? "Plataforma de gestión para academia de inglés con administración de alumnos, clases y profesores."
+                : "Management platform for an English academy with students, classes, and teachers administration."}
             </p>
             <div className="project-breakdown">
               <article className="breakdown-item">
-                <p className="breakdown-label">problema</p>
+                <p className="breakdown-label">{t.projects.problem}</p>
                 <p className="breakdown-text">
-                  El onboarding técnico era lento por diferencias de entorno
-                  entre integrantes.
+                  {language === "es"
+                    ? "El onboarding técnico era lento por diferencias de entorno entre integrantes."
+                    : "Technical onboarding was slow due to environment differences across team members."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">mi rol</p>
+                <p className="breakdown-label">{t.projects.role}</p>
                 <p className="breakdown-text">
-                  Participé en frontend y backend, y trabajé la
-                  contenedorización con Docker.
+                  {language === "es"
+                    ? "Participé en frontend y backend, y trabajé la contenedorización con Docker."
+                    : "I contributed to frontend and backend and worked on containerization with Docker."}
                 </p>
               </article>
               <article className="breakdown-item">
-                <p className="breakdown-label">impacto</p>
+                <p className="breakdown-label">{t.projects.impact}</p>
                 <p className="breakdown-text">
-                  Se estandarizó el entorno de desarrollo y se aceleró la
-                  incorporación técnica del equipo.
+                  {language === "es"
+                    ? "Se estandarizó el entorno de desarrollo y se aceleró la incorporación técnica del equipo."
+                    : "The development environment was standardized and team technical onboarding sped up."}
                 </p>
               </article>
             </div>
@@ -696,8 +933,8 @@ function App() {
       <section id="skills" ref={skillsRef}>
         <div className="skills-inner">
           <div className={`reveal ${skillsVisible ? "visible" : ""}`}>
-            <p className="section-label">03 habilidades</p>
-            <h2 className="section-title">Mi stack.</h2>
+            <p className="section-label">{t.skills.sectionLabel}</p>
+            <h2 className="section-title">{t.skills.title}</h2>
           </div>
 
           <div
@@ -709,7 +946,7 @@ function App() {
                   <i className="devicon-html5-plain"></i>
                   HTML
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="75"></div>
@@ -722,7 +959,7 @@ function App() {
                   <i className="devicon-css3-plain"></i>
                   CSS
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="70"></div>
@@ -735,7 +972,7 @@ function App() {
                   <i className="devicon-javascript-plain"></i>
                   JavaScript
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="65"></div>
@@ -748,7 +985,7 @@ function App() {
                   <i className="devicon-typescript-plain"></i>
                   TypeScript
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="35"></div>
@@ -761,7 +998,7 @@ function App() {
                   <i className="devicon-react-original"></i>
                   React
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="45"></div>
@@ -774,7 +1011,7 @@ function App() {
                   <i className="devicon-nodejs-plain"></i>
                   Node.js
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="45"></div>
@@ -787,7 +1024,7 @@ function App() {
                   <i className="devicon-php-plain"></i>
                   PHP
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="35"></div>
@@ -800,7 +1037,7 @@ function App() {
                   <i className="devicon-python-plain"></i>
                   Python
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="40"></div>
@@ -813,7 +1050,7 @@ function App() {
                   <i className="devicon-java-plain"></i>
                   Java
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="35"></div>
@@ -826,7 +1063,7 @@ function App() {
                   <i className="devicon-mysql-plain"></i>
                   MySQL
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="40"></div>
@@ -839,7 +1076,7 @@ function App() {
                   <i className="devicon-git-plain"></i>
                   Git
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="60"></div>
@@ -852,7 +1089,7 @@ function App() {
                   <i className="devicon-github-original"></i>
                   GitHub
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="60"></div>
@@ -865,7 +1102,7 @@ function App() {
                   <i className="devicon-npm-original-wordmark"></i>
                   npm
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="50"></div>
@@ -878,7 +1115,7 @@ function App() {
                   <i className="devicon-vitejs-plain"></i>
                   Vite
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="65"></div>
@@ -891,7 +1128,7 @@ function App() {
                   <i className="devicon-githubactions-plain"></i>
                   GitHub Actions
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="40"></div>
@@ -904,7 +1141,7 @@ function App() {
                   <i className="devicon-prisma-original"></i>
                   Prisma
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="40"></div>
@@ -917,7 +1154,7 @@ function App() {
                   <i className="devicon-mongodb-plain"></i>
                   MongoDB
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="35"></div>
@@ -930,7 +1167,7 @@ function App() {
                   <i className="devicon-eslint-original"></i>
                   ESLint
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="60"></div>
@@ -946,7 +1183,7 @@ function App() {
                   ></i>
                   APIs
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="50"></div>
@@ -959,7 +1196,7 @@ function App() {
                   <i className="devicon-docker-plain"></i>
                   Docker
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="30"></div>
@@ -972,7 +1209,7 @@ function App() {
                   <i className="devicon-bash-plain"></i>
                   Bash
                 </span>
-                <span className="skill-bar-level">básico</span>
+                <span className="skill-bar-level">{t.skills.basic}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="30"></div>
@@ -986,9 +1223,9 @@ function App() {
                     className="fa-solid fa-comments"
                     style={{ color: "var(--accent)" }}
                   ></i>
-                  Inglés
+                  {t.skills.english}
                 </span>
-                <span className="skill-bar-level">intermedio</span>
+                <span className="skill-bar-level">{t.skills.intermediate}</span>
               </div>
               <div className="skill-bar-track">
                 <div className="skill-bar-fill" data-width="55"></div>
@@ -1001,24 +1238,26 @@ function App() {
       {/* CONTACT */}
       <section id="contact" ref={contactRef}>
         <div className={`reveal ${contactVisible ? "visible" : ""}`}>
-          <p className="section-label">04 contacto</p>
+          <p className="section-label">{t.contact.sectionLabel}</p>
           <h2 className="contact-big">
-            ¿Trabajamos
+            {t.contact.heading1}
             <br />
-            <span className="accent">juntos?</span>
+            <span className="accent">{t.contact.heading2}</span>
           </h2>
-          <div className="availability-box" aria-label="Disponibilidad laboral">
+          <div
+            className="availability-box"
+            aria-label={t.contact.availabilityAria}
+          >
             <div className="availability-layout">
               <div className="availability-main">
-                <p className="availability-title">disponibilidad</p>
+                <p className="availability-title">
+                  {t.contact.availabilityTitle}
+                </p>
                 <ul className="availability-list">
-                  <li>Inicio: inmediato</li>
-                  <li>Modalidad: remoto o híbrido</li>
-                  <li>
-                    Franja horaria: UTC-3 con superposición en cualquier horario
-                    del mundo
-                  </li>
-                  <li>Rol objetivo: full stack junior</li>
+                  <li>{t.contact.item1}</li>
+                  <li>{t.contact.item2}</li>
+                  <li>{t.contact.item3}</li>
+                  <li>{t.contact.item4}</li>
                 </ul>
               </div>
               <div className="availability-actions">
@@ -1027,7 +1266,7 @@ function App() {
                     href="mailto:devbel_@outlook.com"
                     className="btn-primary contact-email-btn"
                   >
-                    ✉ enviar email
+                    {t.contact.sendEmail}
                   </a>
                   <a
                     href="https://github.com/devbelen"
@@ -1035,7 +1274,7 @@ function App() {
                     rel="noreferrer"
                     className="btn-outline"
                   >
-                    ⌥ GitHub
+                    GitHub
                   </a>
                   <a
                     href="https://www.linkedin.com/in/devbelen/"
@@ -1043,7 +1282,7 @@ function App() {
                     rel="noreferrer"
                     className="btn-outline"
                   >
-                    in LinkedIn
+                    LinkedIn
                   </a>
                 </div>
               </div>
@@ -1056,10 +1295,10 @@ function App() {
       <footer>
         <p>
           © 2024 <span className="accent">Belén</span> ·{" "}
-          <span className="accent">devbelen</span> — diseñado y desarrollado
+          <span className="accent">devbelen</span> — {t.footer.line1}
         </p>
         <p>
-          hecho con <span className="accent">♥</span> y mucho mate
+          {t.footer.line2} <span className="accent">♥</span> {t.footer.line3}
         </p>
       </footer>
     </>
